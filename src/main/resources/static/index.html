@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Weather Tracking app</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
+</head>
+<body>
+<div class="jumbotron">
+    <h1 class="display-3">Weather Tracking App</h1>
+</div>
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col mr-4">
+            <h3>Current weather</h3>
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">City</div>
+                <div class="col-5 text-center border-top" id="cw1" style="background-color:lavenderblush;"></div>
+            </div>
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">Description</div>
+                <div class="col-5 text-center border-top" id="cw2" style="background-color:lavenderblush;"></div>
+            </div>
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">Temperature</div>
+                <div class="col-5 text-center border-top" id="cw3" style="background-color:lavenderblush;"></div>
+            </div>
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">Humidity</div>
+                <div class="col-5 text-center border-top" id="cw4" style="background-color:lavenderblush;"></div>
+            </div>
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">Pressure</div>
+                <div class="col-5 text-center border-top" id="cw5" style="background-color:lavenderblush;"></div>
+            </div>
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">Time</div>
+                <div class="col-5 text-center border-top" id="cw6" style="background-color:lavenderblush;"></div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h3>Statistic</h3>
+
+
+            <div class="row mb-3">
+                <div class="col">
+                    <input  id="d1" class="datepicker" data-date-format="dd/mm/yyyy">
+                </div>
+
+                <div class="col">
+                    <input  id="d2" class="datepicker" data-date-format="dd/mm/yyyy" >
+                </div>
+
+                <div class="col">
+                    <button id="btn" type="button" class="btn-primary primary">Get statistic</button>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">Average temperature</div>
+                <div class="col-5 text-center border-top" id="st1" style="background-color:lavenderblush;"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">Min. temperature</div>
+                <div class="col-5 text-center border-top" id="st2" style="background-color:lavenderblush;"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-7 text-center border-top" style="background-color:lavender;">Max. temperature</div>
+                <div class="col-5 text-center border-top" id="st3" style="background-color:lavenderblush;"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <script src="scripts/current_weather.js"></script>
+        <script src="scripts/statistic.js"></script>
+</body>
+</html>
