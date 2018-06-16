@@ -24,7 +24,6 @@ public class WeatherCollectingService {
     @Scheduled(fixedDelay = 600000)
     public void collectWeather(){
         Weather weather = weatherService.getWeather(city);
-        System.out.println(weather);
         weatherRepository.save(weather);
     }
 

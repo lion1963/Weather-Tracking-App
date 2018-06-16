@@ -1,7 +1,9 @@
 package com.sviatoslav.app.service;
 
 import com.sun.org.apache.regexp.internal.RE;
+import com.sviatoslav.app.model.Statistic;
 import com.sviatoslav.app.model.Weather;
+import com.sviatoslav.app.repository.WeatherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,14 @@ public class WeatherServiceImpl implements WeatherService{
     @Value("${app.id}")
     private String appId;
 
+    @Value("${app.openWeatherMapURL}")
+    private String weatherURL;
+
     @Autowired
     private JsonParserService jsonParserService;
+
+    @Autowired
+    private WeatherRepository weatherRepository;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -35,26 +43,28 @@ public class WeatherServiceImpl implements WeatherService{
     }
 
     private String getJsonFromServer(String city) {
-        String json ="";
 
-        Weather weather = restTemplate.getForObject("http://api.openweathermap.org/data/2.5/weather?q="+ city + "&APPID="+ appId + "&units=metric", Weather.class);
+        String json = restTemplate.getForObject(weatherURL + city + "&APPID="+ appId + "&units=metric", String.class);
 
-        try {
-            URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+ city + "&APPID="+ appId + "&units=metric");
-            URLConnection urlConnection = url.openConnection();
-
-            BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-            String inputLine;
-            while((inputLine = in.readLine()) != null){
-                json += json.concat(inputLine);
-            }
-            in.close();
-        }
-        catch (IOException e){
-            e.printStackTrace();//logger
-        }
         return json;
     }
+
+    @Override
+    public Statistic getStatisticFromDatabase(Long dateFrom, Long dateTo){
+
+        Statistic statistic = new Statistic();
+        statistic.setAvgTemperature(weatherRepository.getAverageTemperatureForPeriod(dateFrom, dateTo));
+        statistic.setMaxTemperature(weatherRepository.getMaxTemperatureForPeriod(dateFrom, dateTo));
+        statistic.setMinTemperature(weatherRepository.getMinTemperatureForPeriod(dateFrom, dateTo));
+
+        return  statistic;
+    }
+
+    @Override
+    public Weather getWeatherFromDatabase(){
+        return weatherRepository.getCurrentWeather();
+    }
+
 
 
 }

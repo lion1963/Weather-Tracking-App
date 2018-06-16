@@ -8,37 +8,38 @@ var lastWeekDate = lastWeek.getDate();
 var lastWeekMonth = lastWeek.getMonth();
 var lastWeekYear = lastWeek.getFullYear();
 
+var statisticURL = "http://localhost:8080/weather/statistic";
+
     $(document).ready(function() {
-        $('#d1').datepicker();
-        $('#d1').datepicker('update', new Date(lastWeekYear, lastWeekMonth, lastWeekDate));
+        $('#datepicker1').datepicker();
+        $('#datepicker1').datepicker('update', new Date(lastWeekYear, lastWeekMonth, lastWeekDate));
     });
 
     $(document).ready(function() {
-        $('#d2').datepicker();
-        $('#d2').datepicker('update', new Date(todayYear, todayMonth, todayDate));
+        $('#datepicker2').datepicker();
+        $('#datepicker2').datepicker('update', new Date(todayYear, todayMonth, todayDate));
     });
 
 function getStatistic(){
-    var date1 = $('#d1').datepicker('getUTCDate');
-    var date2 = $('#d2').datepicker('getUTCDate');
+    var date1 = $('#datepicker1').datepicker('getUTCDate');
+    var date2 = $('#datepicker2').datepicker('getUTCDate');
     var timestamp1 = (date1.getTime()/1000);
     var timestamp2 = (date2.getTime()/1000)+86400;
 
     $.ajax({
-            url: "http://localhost:8080/weather/statistic?timestamp1="+timestamp1+"&timestamp2="+timestamp2,
+            url: statisticURL+"?timestamp1="+timestamp1+"&timestamp2="+timestamp2,
             type: "get"
 
     }).then(function(data) {
-        $('#st1').text(data.avgTemperature);
-        $('#st2').text(data.minTemperature);
-        $('#st3').text(data.maxTemperature);
+        $('#statistic_field1').text(data.avgTemperature + "°C");
+        $('#statistic_field2').text(data.minTemperature + "°C");
+        $('#statistic_field3').text(data.maxTemperature + "°C");
     });
 };
 
     $(document).ready(function() {
             getStatistic();
         });
-
 
     $(document).ready(function() {
             $('#btn').click(function(){
