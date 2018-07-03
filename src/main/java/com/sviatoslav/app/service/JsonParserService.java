@@ -16,7 +16,7 @@ public class JsonParserService {
 
     public Weather getWeatherFromJson(String json){
 
-        Weather weather = new Weather();
+        Weather weather = null;
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode rootNode = objectMapper.readTree(json);
@@ -45,13 +45,14 @@ public class JsonParserService {
             JsonNode descriptionNode = rootNode.findPath("description");
             String description = descriptionNode.asText();
 
+            weather = Weather.builder().date(date).city(city).humidity(humidity).temperature(temperature).pressure(pressure).description(description).build();
             //setting parsed value
-            weather.setDate(date);
+            /*weather.setDate(date);
             weather.setCity(city);
             weather.setTemperature(temperature);
             weather.setPressure(pressure);
             weather.setHumidity(humidity);
-            weather.setDescription(description);
+            weather.setDescription(description);*/
 
         }
         catch (IOException e){

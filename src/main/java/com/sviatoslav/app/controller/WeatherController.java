@@ -31,7 +31,8 @@ public class WeatherController {
     }
 
     @GetMapping("/weather/statistic")
-    public Statistic getStatistic(@RequestParam(value = "timestamp1") Long dateFrom, @RequestParam(value = "timestamp2") Long dateTo){
+    public Statistic getStatistic(@RequestParam(value = "timestamp1") Long dateFrom,
+                                  @RequestParam(value = "timestamp2") Long dateTo){
 
         if (dateFrom > dateTo)
             return weatherService.getStatisticFromDatabase(dateTo, dateFrom);

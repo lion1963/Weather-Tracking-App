@@ -6,6 +6,7 @@ import com.sviatoslav.app.model.Weather;
 import com.sviatoslav.app.repository.WeatherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,6 +18,9 @@ import java.net.URLConnection;
 
 @Service
 public class WeatherServiceImpl implements WeatherService{
+
+    @Value("${app.city}")
+    private String city;
 
     @Value("${app.id}")
     private String appId;
@@ -43,14 +47,13 @@ public class WeatherServiceImpl implements WeatherService{
     }
 
     private String getJsonFromServer(String city) {
-
-        String json = restTemplate.getForObject(weatherURL + city + "&APPID="+ appId + "&units=metric", String.class);
-
-        return json;
+        return restTemplate.getForObject(weatherURL + city + "&APPID="+ appId + "&units=metric", String.class);
     }
 
     @Override
     public Statistic getStatisticFromDatabase(Long dateFrom, Long dateTo){
+
+        //check
 
         Statistic statistic = new Statistic();
         statistic.setAvgTemperature(weatherRepository.getAverageTemperatureForPeriod(dateFrom, dateTo));
@@ -66,5 +69,11 @@ public class WeatherServiceImpl implements WeatherService{
     }
 
 
+
+    @Scheduled(fixedDelay = 600000)
+    public void collectWeather(){
+        Weather weather = getWeather(city);
+        weatherRepository.save(weather);
+    }
 
 }

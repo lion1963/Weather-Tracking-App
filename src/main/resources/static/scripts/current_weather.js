@@ -16,11 +16,11 @@ $(document).ready(function() {
 
        var month = (time.getMonth()+1);
        month = month<10?"0"+month:month;
-       var day = "0"+time.getDate();
+       var day = time.getDate();
        day = day<10?"0"+day:day;
        var hours = time.getHours();
        hours = hours<10?"0"+hours:hours;
-       var minutes = "0"+time.getMinutes();
+       var minutes = time.getMinutes();
        minutes = minutes<10?"0"+minutes:minutes;
 
        var dateTime = day+ "/"+ month+"/"+year+" "+hours+":"+minutes;
