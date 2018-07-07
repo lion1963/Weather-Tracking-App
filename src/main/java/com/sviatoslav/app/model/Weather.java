@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Builder
 public class Weather {
 
     @Id

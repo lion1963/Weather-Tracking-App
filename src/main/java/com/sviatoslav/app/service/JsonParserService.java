@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.sviatoslav.app.model.Weather;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,11 @@ import java.io.IOException;
 @Service
 public class JsonParserService {
 
+private final static Logger LOGGER = Logger.getLogger(JsonParserService.class);
 
     public Weather getWeatherFromJson(String json){
 
-        Weather weather = null;
+        Weather weather = new Weather();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             JsonNode rootNode = objectMapper.readTree(json);
@@ -45,18 +47,16 @@ public class JsonParserService {
             JsonNode descriptionNode = rootNode.findPath("description");
             String description = descriptionNode.asText();
 
-            weather = Weather.builder().date(date).city(city).humidity(humidity).temperature(temperature).pressure(pressure).description(description).build();
-            //setting parsed value
-            /*weather.setDate(date);
+            weather.setDate(date);
             weather.setCity(city);
             weather.setTemperature(temperature);
             weather.setPressure(pressure);
             weather.setHumidity(humidity);
-            weather.setDescription(description);*/
+            weather.setDescription(description);
 
         }
         catch (IOException e){
-            e.printStackTrace();
+            LOGGER.error("Exception is throwed : " + e);
         }
 
         return weather;

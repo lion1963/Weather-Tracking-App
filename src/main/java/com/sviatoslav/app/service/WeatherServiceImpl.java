@@ -4,6 +4,7 @@ import com.sun.org.apache.regexp.internal.RE;
 import com.sviatoslav.app.model.Statistic;
 import com.sviatoslav.app.model.Weather;
 import com.sviatoslav.app.repository.WeatherRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,6 +19,8 @@ import java.net.URLConnection;
 
 @Service
 public class WeatherServiceImpl implements WeatherService{
+
+    private final static Logger LOGGER = Logger.getLogger(WeatherService.class);
 
     @Value("${app.city}")
     private String city;
@@ -53,13 +56,12 @@ public class WeatherServiceImpl implements WeatherService{
     @Override
     public Statistic getStatisticFromDatabase(Long dateFrom, Long dateTo){
 
-        //check
-
         Statistic statistic = new Statistic();
         statistic.setAvgTemperature(weatherRepository.getAverageTemperatureForPeriod(dateFrom, dateTo));
         statistic.setMaxTemperature(weatherRepository.getMaxTemperatureForPeriod(dateFrom, dateTo));
         statistic.setMinTemperature(weatherRepository.getMinTemperatureForPeriod(dateFrom, dateTo));
 
+        LOGGER.info("Got statistic : "+statistic+" from database");
         return  statistic;
     }
 
@@ -74,6 +76,8 @@ public class WeatherServiceImpl implements WeatherService{
     public void collectWeather(){
         Weather weather = getWeather(city);
         weatherRepository.save(weather);
+
+        LOGGER.info("Saved weather: "+ weather+" to database");
     }
 
 }
